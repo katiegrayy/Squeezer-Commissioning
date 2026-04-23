@@ -1,0 +1,783 @@
+# notes about darm channels: use cal delta L between runs until O3.  
+# GDS-CALIB_STRAIN during O1 + O2
+# 'H1:GDS-CALIB_STRAIN_CLEAN' during O3 and O4
+# 3 June 2022 OAF-CLEAN_DELTAL_EXTERNAL_DQ became available and has better LSC + ASC noise than CAL-DELTAL most of the time
+
+LHO_88039:     #  FC detuning at 3kHz
+  nosqz: 1444059258
+  FDS: 1446828330
+  midsqz: 1446828830
+  asqz: 1446829499
+  span: 120
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  budget_kwargs:
+    # ── Interferometer ────────────────────────────────────────────────────────
+    bname: 'Displacement'
+    Parm: 360000                    # arm cavity power [W]
+    sec_detuning_deg: 0             # signal recycling cavity detuning [deg]
+    homodyne_angle_deg: 10          # homodyne readout angle [deg]
+    readout_eff: 0.92               # total readout efficiency (OMC + homodyne)
+    # ── Squeezer ──────────────────────────────────────────────────────────────
+    sqz_config: 'Freq Dependent'    # squeezer type: 'None', 'Freq Independent', 'Freq Dependent'
+    nlg: 16                         # nonlinear gain
+    sqz_injection_loss: 0.073       # squeezer path injection loss
+    sqz_angle_rms: 0.025            # RMS squeezing angle jitter [rad]
+    # ── Filter Cavity ─────────────────────────────────────────────────────────
+    fcdet_Hz: -3100                 # filter cavity detuning [Hz]
+    fc_Tin: 0.000909                # filter cavity input mirror transmission
+    fc_L: 297.55                    # filter cavity length [m]
+    fc_Lrt: 50e-6                   # filter cavity round-trip loss
+    fc_Lrms: 1.0e-12                # filter cavity length noise RMS [m]
+    # ── Mode Mismatch ─────────────────────────────────────────────────────────
+    include_mm: true
+    MM_IFO_OMC: 0.0                 # IFO→OMC mismatch amplitude (power loss = MM²/2)
+    MM_IFO_OMCphi: 0.0              # IFO→OMC mismatch phase [rad]
+    MM_SQZ_OMC: 0.0                 # squeezer→OMC mismatch amplitude (power loss = MM²/2)
+    MM_SQZ_OMCphi: 0.0              # squeezer→OMC mismatch phase [rad]
+    FC_L_mm: 0.0                    # filter cavity length mismatch [m]
+    FC_psi_mm: 0.0                  # filter cavity Gouy phase mismatch [rad]
+    # ── Flags ─────────────────────────────────────────────────────────────────
+    ifo_yaml_fname: 'QuantumParameters_July2025.yaml' 
+    quiet: true
+    use_default_gwinc_budgets: false
+
+
+LHO_86361:     # 5kHz HOM Spacing with ZM4 Yaw alignment changes
+  nosqz: 1439224638
+  FDS: 1439223048
+  FDS -50: 1439223288
+  FDS +50: 1439223483
+  FDS +100: 1439223708
+  span: 120
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN' 
+  params: 'QuantumParameters_July2025' 
+
+
+
+
+LHO_79903:     # FIS vs. SRCL offsets
+  nosqz: 1409511600
+  FIS -175: 1409509282
+  FIS -100: 1409509687
+  FIS -250: 1409510096
+  FIS -325: 1409510392
+  FIS -400: 1409510673
+  FIS -475: 1409511323
+  span: 120
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+
+LHO_SQZ_dataset:  #alog 77710
+  nosqz: 1399219188   #
+  FDS:   1399221426   # 
+  FDAS:  1399224835 
+  FDS -10:  1399222052 #
+  FDS +10:  1399223012 #
+  FDS +mid: 1399223659 #
+  FDS -mid: 1399225614 #
+  FIS:  1399226947   #
+  FIAS: 1399228563
+  FIS -mid:  1399226326   #
+  FIAS +mid: 1399227558
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+
+
+
+LHO:
+  # gps_start: 1386276080  # Dec 10, 2023, 20:41 UTC, hot OM2.  Observing, O4a, IFO locked 14 hours, 157Mpc
+  # gps_start: 1387120622  # Dec 20, 2023, 15:16:44 UTC, cold OM2. Observing, O4a, IFO locked 11.5 hours, 160Mpc
+  # gps_start: 1402575668  # June 16, 2024,12:20 UTC, cold OM2. Observing, O4b, IFO locked 10 hours, 160MPc
+  gps_start: 1403879360    # July 1, 2024, 14:29 UTC, hot OM2. Observing, O4b, IFO locked 3h30 hours, 158MPc
+  #gps_start: 1396857030   # April 11 2024, 165 Mpc
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'
+
+LHO_realigned_AS_port:  #after April 24th dramatic realignment of SRC
+  gps_start: 1398048030 # April 17th
+  span: 600
+  #darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'
+
+LHO_lost_range:
+  gps_start:  1397420341 # April 17th
+  span: 600
+  #darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'
+
+OM2_cold_no_sqz:
+  gps_start: 1403266698 # JUne 24 2024 12:18 UTC
+  span: 280
+  #darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'
+
+OM2_hot_no_sqz:
+  gps_start:  1403888298 # 1403308348
+  span: 280
+  #darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'
+
+OM2_cold_sqz:
+  gps_start: 1402573898  # June 24 2024
+  span: 600
+  #darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'
+
+OM2_hot_sqz:
+  gps_start: 1403531058  # June 25 2024 13:34:52
+  span: 600
+  #darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_May2024_O4b'
+
+LHO_NO_SQZ:
+  # gps_start: 1386718819  # Dec 15, 2023, hot OM2. 2023/12/15 23:40 UTC 137Mpc alog#74834
+  gps_start: 1387130434    # Dec 20, 2023, cold OM2. 2023/12/20 18:00:16- 18:20:40 UTC, LHO:74935
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+
+LHO_SQZ_dataset_older:  #alog 77023
+  nosqz:  1396625028   #
+  FDS:  1396627503   #
+  FDAS: 1396991638
+  FIS: 1396634388    #
+  FIAS: 1396635893
+  span: 300
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+LHO_165_hot_OM2:
+  gps_start: 1382009605    # Oct 22 2023 165 Mpc 
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+LHO_ER16_April4:
+  gps_start: 1396241443
+  span: 3600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  # darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  params: 'ER16_april4'
+
+LHO_O4a_postvent:
+  gps_start: 1389058533
+  span: 3600
+  # darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'O4a_postvent'
+
+LHO_March26:
+  gps_start:  1395464418  # March 26, 2024, 05:00 UTC, Observing Time, preO4b, 160MPc range
+  span: 600
+  darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  #darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'
+
+NoSQZ_ER16:
+  gps_start: 1394986038   # alog 76540
+  span: 600
+  darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  #darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'
+
+LHO_20240619_0945:
+  gps_start: 1402825560   
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'
+
+LHO_20240619_1400:
+  gps_start: 1402840771   
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'
+
+LHO_20240711_0550:
+  gps_start: 1404712224  # Beginning (30min in) of july lock with large range thermalization
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'
+
+LHO_20240711_0840:
+  gps_start: 1404722417  # 3.5 hours into july lock with large range thermalization
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'
+
+
+
+O4a_OM2cold:
+  gps_start: 1388678418    # 2024/01/07 09:39:12 UTC Range 160MPc, before O4 break
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+O4a_OM2cold_NOSQZ:
+  gps_start:  1387131018   # 2024/01/07 09:39:12 UTC Range 160MPc, before O4 break
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+LHO_O4aCOMM:
+  gps_start: 1394271570   # 2024/03/12 09:39:12 UTC Range 145MPc, Commisoing time after O4 break
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Dec2023_60W_hotOM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+
+LHO_60W_hotOM2_Aug2023:  # alog72770
+  # gps_start: 1375720570 # 8/10 16:35 UTC more thermalized, higher range, less glitching, closer to no-sqz, ~145Mpc.
+  gps_start: 1376321250   # 8/17 HVAC OFF time, August 17th, 60W, hot OM2
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Aug2023_60W_hotOM2'  #find this param file here: aligoNB/aligoNB/H1/ifos
+
+LHO_NO_SQZ_60W_hotOM2_Aug2023:  # alog72770
+  gps_start: 1375723109  # August 10 2023, 17:18:11, 60W, hot OM2, alog72770
+  span: 600  
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_Aug2023_60W_hotOM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+
+LHO_75W:
+  gps_start: 1371265218  #noise budget taken at 75W input power right before power reduction June 20th 3 UTC
+  span: 600
+  darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+  #cal_cor_dtt: '/ligo/gitcommon/NoiseBudget/aligoNB/aligoNB/H1/calibrations/2023-01-28_0007UTC_H1_PCALY2DARMTF_BB_3min.xml'  #optional argument to flag that for this time we need to apply a calibration correction based on broad band pcal injections
+
+LHO_NO_SQZ_75W:
+  gps_start:  1370816035  # no sqz, June 14 2023, lost lock after 9 minutes
+  span: 9*60
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+BDIV_chan: 
+  time_switch: 1317081618
+  after_switch: 'H1:SYS-MOTION_C_BDIV_E_POSITION'
+  b4_switch: 'H1:SYS-MOTION_C_BDIV_C_POSITION'
+
+LLO:
+  gps_start: 1380866418
+  #gps_start: 1364774298 # L2 coil drivers state 2
+  span: 600
+  darm_chan: 'L1:CAL-DELTAL_EXTERNAL_DQ' 
+
+LLO_NO_SQZ:
+  gps_start: 1295755218    
+  span: 600
+  darm_chan: 'L1:CAL-DELTAL_EXTERNAL_DQ' 
+
+LHO_SQZ_NEW_BIAS_SRCL_OFST:
+  gps_start:  1362267774
+  span: 600
+  darm_chan:  'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+  cal_cor_dtt:  '/ligo/svncommon/CalSVN/aligocalibration/trunk/Runs/O3/H1/Measurements/FullIFOSensingTFs/2023-03-07_2344UTC_H1_PCALY2DARMTF_BB_3min.xml'
+  
+LHO_new_RH_new_ASC:
+    gps_start:  1364608498
+    span:   600
+    darm_chan:  'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+    # cal_cor_dtt:  '/ligo/svncommon/CalSVN/aligocalibration/trunk/Runs/O3/H1/Measurements/FullIFOSensingTFs/2023-03-31_0111UTC_H1_PCALY2DARMTF_BB_3min.xml'
+
+LHO_76W:
+    gps_start: 1365998358
+    span: 450
+    darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+    params: 'LHO_76W_params'
+    
+LHO_jitter_subtracted:
+    gps_start: 1364774988
+    span: 600
+    darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+    # cal_cor_dtt: '/ligo/svncommon/CalSVN/aligocalibration/trunk/Runs/O3/H1/Measurements/FullIFOSensingTFs/2023-04-05_1727UTC_H1_PCALY2DARMTF_BB_3min.xml'
+    params: 'April2023Cal'
+  
+
+SQZ_data_times:
+  no_sqz_start: 1360834978
+  FIS_lf_start: 1360826939
+  FIS_hf_start: 1360830700
+  FIAS_start: 1360833930
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_76W_FDS:
+  no_sqz: 1366998500
+  span: 300
+  no_sqz_40mA: 1367358571
+  no_sqz_40mA_span: 600
+  no_sqz_20mA: 1367357933
+  no_sqz_20mA_span: 450
+  FDS: 1367143218
+  FDS_span: 3600
+  FDS2: 1366088238
+  FDS_span2: 1200
+  FDS_40mA: 1367360940
+  FDS_40mA_span: 400
+  darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+
+LHO_76W_FDS_NB:       #next lock from 76W noise budget time
+  no_sqz: 1366017765
+  no_sqz_span: 1600
+  FDS: 1366019615
+  FDS_span: 1600
+  darm_chan: 'H1:CAL-DELTAL_EXTERNAL_DQ'
+
+LHO_quarter_bias_line:
+  gps_start:  1359916522 #operating on ETMX ESD bias at -125V, with a 15.45 Hz line injected on the ESD
+  span: 400
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+  cal_cor_dtt: '/ligo/gitcommon/NoiseBudget/aligoNB/aligoNB/H1/calibrations/2023-01-28_0007UTC_H1_PCALY2DARMTF_BB_3min.xml'  #optional argument to flag that for this time we need to apply a calibration correction based on broad band pcal injections
+
+LHO_FEB1_2023:
+  gps_start:  1359318357 #after SRCL and MICH changes 1359318357  #w/ FD SQZ (11 minutes)
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_NO_SQZ_FEB2_2023:
+  gps_start:  1359346758  # no sqz, after SRCL and MICH changes and REFL DC cut offs 67171
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_140Mpc:
+  gps_start:  1359197358 #140 Mpc, 4 dB of FDS
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_NO_SQZ_pre140Mpc:
+  gps_start: 1359177738   #Jan 31st 2023, after cleaning updated, no sqz
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_JAN2023:
+  gps_start: 1357081855  #undisturbed time Jan 6 2023 no sqz
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_NO_SQZ_JAN2023:
+  gps_start: 1357081855  #Jan 6th, after round of NB injections and cleaning, no sqz
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_QUARTER_BIAS:
+  gps_start: 1357756428  #Jan 6th, after round of NB injections and cleaning, no sqz
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_B4_ALLIGATOR_CLIPS:
+  gps_start: 1352877299  #lho alog 66010
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+
+LHO_AFTER_ALLIGATOR_CLIPS:
+  gps_start: 1353271380  #lho alog 66010
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_SEPTUM_IN:
+  gps_start: 1346233655  #1346363943  #quiet time before septum removal vent
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_SEPTUM_OUT:
+  gps_start: 1352853348 #LHO alog 65879, quiet calibrated time after septum removal
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_BEFORE_HAM1_VENT:
+  gps_start: 1338535456
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_MAY2021:
+  gps_start: 1304283731  #no sqz, after ITMY swap
+  span: 600
+  darm_chan: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+LHO_O3B_NO_SQZ:
+  gps_start: 1268683369 # O3 no sqz
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+
+LHO_O3B:
+  gps_start: 1268694018 # O3 no sqz
+  span: 600
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+# LHO_GPS_START_TIME: 1346227192  # August 3rd 2022
+# LHO_SPAN: 600
+# LHO_NO_SQZ_START_TIME:  1346227192 # August 3rd 2022
+# LHO_NO_SQZ_SPAN: 600 
+
+# LHO_GPS_START_TIME: 1344328015 #August 11 overnight, no sqz # 1341970960 #July 16, before calibration fix but after cleaning worked #1343074448 # July 28, 2022, No SQZ 98Mpc
+# LHO_SPAN: 600
+# LHO_NO_SQZ_START_TIME:  1341873705 # July 14, 2022
+# LHO_NO_SQZ_SPAN: 600 
+
+#LLO_GPS_START_TIME: 1295755218    # O3
+#LLO_SPAN: 600
+#LLO_NO_SQZ_START_TIME: 1295755218 # O3 no sqz
+#LLO_NO_SQZ_SPAN: 600 #128
+
+#LHO_GPS_START_TIME: 1352877299 #1352320998  # November 13 2022
+#LHO_SPAN: 600
+#LHO_NO_SQZ_START_TIME:  1352320998 # November 13 2022
+#LHO_NO_SQZ_SPAN: 600 
+#LHO_NO_SQZ_DARM_CHAN: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ' # O3 no sqz
+
+
+#LHO_B4_ALLIGATOR_CLIPS_TIME: 1352877299  #lho alog 66010
+#LHO_AFTER_ALLIGATOR_CLIPS_TIME: 1353271380  #lho alog 66010
+#LHO_ALLIGATOR_DARM_CHAN: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+#LHO_SEPTUM_IN_TIME: 1346233655  #1346363943  #quiet time before septum removal vent
+#LHO_SEPTUM_IN_SPAN: 600
+
+#LHO_SEPTUM_OUT_TIME: 1352853348 #LHO alog 65879, quiet calibrated time after septum removal
+#LHO_SEPTUM_OUT_SPAN: 600
+#LHO_SEPTUM_DARM_CHAN: 'H1:OAF-CLEAN_DELTAL_EXTERNAL_DQ'
+
+#LHO_BEFORE_HAM1_VENT_TIME: 1338535456
+#LHO_BEFORE_HAM1_VENT_SPAN: 600
+# LHO_GPS_START_TIME: 1338334893    # 2022 time of LSC and ASC injections, no calibration
+# LHO_SPAN: 600
+# LHO_NO_SQZ_START_TIME: 1338334893 # 2022 time of LSC and ASC injections, no calibration
+# LHO_NO_SQZ_SPAN: 600 
+
+# LHO_GPS_START_TIME: 1304935889    # Pre-O4 no sqz, PUM Coil drivers in state 3
+# LHO_SPAN: 1200
+# LHO_NO_SQZ_START_TIME: 1304935889 # Pre-O4 no sqz, PUM Coil drivers in state 3
+# LHO_NO_SQZ_SPAN: 1200 
+
+# LHO_GPS_START_TIME: 1304473821    # Pre-O4 no sqz, 3rd OMC DCPD whitening engaged
+# LHO_SPAN: 600
+# LHO_NO_SQZ_START_TIME: 1304473821 # Pre-O4 no sqz, 3rd OMC DCPD whitening engaged
+# LHO_NO_SQZ_SPAN: 600 
+
+### Old LHO times ###
+# LHO_GPS_START_TIME: 1268679618    # O3 sqz
+# LHO_SPAN: 600
+#LHO_NO_SQZ_START_TIME_O3: 1268683369 # O3 no sqz
+#LHO_O3_DARM_CHAN: 'H1:GDS-CALIB_STRAIN_CLEAN'
+# LHO_NO_SQZ_SPAN: 600 #128
+
+#LHO_GPS_START_TIME_MAY2021: 1304283731 # Pre-O4 no sqz
+# LHO_SPAN: 900
+# LHO_NO_SQZ_START_TIME: 1304283731 # Pre-O4 no sqz
+# LHO_NO_SQZ_SPAN: 900
+
+# LHO_GPS_START_TIME: 1304212510 # Pre-O4 no sqz
+# LHO_SPAN: 520
+# LHO_NO_SQZ_START_TIME: 1304212510 # Pre-O4 no sqz
+# LHO_NO_SQZ_SPAN: 520 
+
+# LHO_GPS_START_TIME: 1304318928 # Pre-O4 no sqz, CALMEAS state to turn calib, dither off for ASC
+# LHO_SPAN: 600
+# LHO_NO_SQZ_START_TIME: 1304318928 # Pre-O4 no sqz, CALMEAS
+# LHO_NO_SQZ_SPAN: 600 
+
+
+##### these are Nov 2025 datasets
+#FIS_nominal_psams: #88208
+#  188.2 : 1447912973.0 
+#  178.2 : 1447913213.0 
+#  168.2 : 1447913453.0 
+#  158.2 : 1447913694.0 
+#  148.2 : 1447913933.0 
+#  138.2 : 1447914174.0 
+#  128.2 : 1447914413.0 
+#  118.2 : 1447914654.0 
+#  108.2 : 1447914894.0 
+#  98.2 : 1447915134.0 
+#  78.2 : 1447915374.0 
+#  58.2 : 1447915614.0 
+#  38.2 : 1447915854.0 
+#  18.2 : 1447916094.0 
+#  0.0 : 1447916334.0 
+#  -30.0 : 1447916575.0 
+#  -60.0 : 1447916814.0 
+#  -90.0 : 1447917054.0 
+#  -120.0 : 1447917295.0 
+#  -150.0 : 1447917534.0 
+#  nosqz: 1447904755.0
+#  span: 180
+#  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+#  params: 'QuantumParameters_July2025' 
+  #params: 'QuantumParameters_Nov2025' 
+#  budget_kwargs:
+#    bname: 'Displacement'
+#    Parm: 347000                         # arm cavity power [W]
+#    readout_eff: 0.92                   # total readout efficiency (OMC + homodyne)
+#    sec_detuning_deg: 0                 # signal recycling cavity detuning [deg]
+#    homodyne_angle_deg: 10              # homodyne readout angle [deg]
+#    sqz_config: 'Freq Independent'        # squeezer type: 'None', 'Freq Dependent', etc.
+#    fcdet_Hz: -30                      # filter cavity detuning [Hz]
+#    fc_Tin: 0.000909                    # filter cavity input mirror transmission
+#    nlg: 24.4                           # generated squeezing level [dB]
+#    include_mm: true                   # include mode-mismatch terms
+#    quiet: true                        # suppress parameter printout
+#    use_default_gwinc_budgets: false   # use built-in gwinc budgets instead of H1 YAML
+
+FIS_nominal_psams:     #  FC detuning at 3kHz
+  188.2 : 1447912973.0 
+  178.2 : 1447913213.0 
+  168.2 : 1447913453.0 
+  158.2 : 1447913694.0 
+  148.2 : 1447913933.0 
+  138.2 : 1447914174.0 
+  128.2 : 1447914413.0 
+  118.2 : 1447914654.0 
+  108.2 : 1447914894.0 
+  98.2 : 1447915134.0 
+  78.2 : 1447915374.0 
+  58.2 : 1447915614.0 
+  38.2 : 1447915854.0 
+  18.2 : 1447916094.0 
+  0.0 : 1447916334.0 
+  -30.0 : 1447916575.0 
+  -60.0 : 1447916814.0 
+  -90.0 : 1447917054.0 
+  -120.0 : 1447917295.0 
+  -150.0 : 1447917534.0 
+  nosqz: 1447904755.0
+  span: 180
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  budget_kwargs:
+    # ── Interferometer ────────────────────────────────────────────────────────
+    bname: 'Displacement'
+    Parm: 347000                    # arm cavity power [W]
+    sec_detuning_deg: 0             # signal recycling cavity detuning [deg]
+    homodyne_angle_deg: 10          # homodyne readout angle [deg]
+    readout_eff: 0.92               # total readout efficiency (OMC + homodyne)
+    # ── Squeezer ──────────────────────────────────────────────────────────────
+    sqz_config: 'Freq Independent'  # squeezer type: 'None', 'Freq Independent', 'Freq Dependent'
+    nlg: 24.4                       # nonlinear gain
+    sqz_injection_loss: 0.073       # squeezer path injection loss
+    sqz_angle_rms: 0.025            # RMS squeezing angle jitter [rad]
+    # ── Filter Cavity ─────────────────────────────────────────────────────────
+    fcdet_Hz: -30                   # filter cavity detuning [Hz]
+    fc_Tin: 0.000909                # filter cavity input mirror transmission
+    fc_L: 297.55                    # filter cavity length [m]
+    fc_Lrt: 50e-6                   # filter cavity round-trip loss
+    fc_Lrms: 1.0e-12                # filter cavity length noise RMS [m]
+    # ── Mode Mismatch ─────────────────────────────────────────────────────────
+    include_mm: true
+    MM_IFO_OMC: 0.0                 # IFO→OMC mismatch amplitude (power loss = MM²/2)
+    MM_IFO_OMCphi: 0.0              # IFO→OMC mismatch phase [rad]
+    MM_SQZ_OMC: 0.0                 # squeezer→OMC mismatch amplitude (power loss = MM²/2)
+    MM_SQZ_OMCphi: 0.0              # squeezer→OMC mismatch phase [rad]
+    FC_L_mm: 0.0                    # filter cavity length mismatch [m]
+    FC_psi_mm: 0.0                  # filter cavity Gouy phase mismatch [rad]
+    # ── Flags ─────────────────────────────────────────────────────────────────
+    ifo_yaml_fname: 'QuantumParameters_July2025.yaml' 
+    quiet: true
+    use_default_gwinc_budgets: false
+
+FDS_nominal_psams: #88205
+  184.8 : 1447823586.0 
+  174.8 : 1447823826.0 
+  164.8 : 1447824067.0 
+  154.8 : 1447824306.0 
+  144.8 : 1447824547.0 
+  134.8 : 1447824787.0 
+  124.8 : 1447825027.0 
+  114.8 : 1447825267.0 
+  104.8 : 1447825507.0 
+  94.8 : 1447825747.0 
+  94.8 : 1447825987.0 
+  74.8 : 1447826227.0 
+  54.8 : 1447826467.0 
+  34.8 : 1447826707.0 
+  14.8 : 1447826948.0 
+  0.0 : 1447827187.0 
+  -30.0 : 1447827428.0 
+  -60.0 : 1447827668.0 
+  -90.0 : 1447827908.0 
+  -120.0 : 1447828148.0 
+  -150.0 : 1447828388.0 
+  nosqz: 1447822825
+  span: 180
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_July2025'
+  #params: 'QuantumParameters_Nov2025' 
+  budget_kwargs:
+    bname: 'Displacement'
+    Parm: 347000                         # arm cavity power [W]
+    readout_eff: 0.92                   # total readout efficiency (OMC + homodyne)
+    sec_detuning_deg: 0                 # signal recycling cavity detuning [deg]
+    homodyne_angle_deg: 10              # homodyne readout angle [deg]
+    sqz_config: 'Freq Dependent'        # squeezer type: 'None', 'Freq Dependent', etc.
+    fcdet_Hz: -30                      # filter cavity detuning [Hz]
+    fc_Tin: 0.000909                    # filter cavity input mirror transmission
+    nlg: 24.3                      # generated squeezing level [dB]
+    include_mm: true                   # include mode-mismatch terms
+    quiet: true                        # suppress parameter printout
+    use_default_gwinc_budgets: false   # use built-in gwinc budgets instead of H1 YAML
+
+FIS_PSAMS_ZM5_4p5:  #see alog 88205 at the bottom, didn't update times yet
+  169.4 : 1447867479.0 
+  159.4 : 1447867659.0 
+  149.4 : 1447867839.0 
+  139.4 : 1447868019.0 
+  129.4 : 1447868199.0 
+  119.4 : 1447868379.0 
+  109.4 : 1447868559.0 
+  99.4 : 1447868739.0 
+  89.4 : 1447868919.0 
+  79.4 : 1447869099.0 
+  79.4 : 1447869279.0 
+  59.4 : 1447869459.0 
+  39.4 : 1447869640.0 
+  19.4 : 1447869819.0 
+  0.0 : 1447870000.0 
+  -30.0 : 1447870180.0 
+  -60.0 : 1447870360.0 
+  -90.0 : 1447870540.0 
+  -120.0 : 1447870720.0 
+  -150.0 : 1447870900.0 
+  nosqz : 1447822825
+  span: 180
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_July2025'
+  #params: 'QuantumParameters_Nov2025_ZM5_4p5'  #find this param file here: aligoNB/aligNB/H1/ifos
+  budget_kwargs:
+    bname: 'Displacement'
+    Parm: 347000                         # arm cavity power [W]
+    readout_eff: 0.92                   # total readout efficiency (OMC + homodyne)
+    sec_detuning_deg: 0                 # signal recycling cavity detuning [deg]
+    homodyne_angle_deg: 10              # homodyne readout angle [deg]
+    sqz_config: 'Freq Independent'        # squeezer type: 'None', 'Freq Dependent', etc.
+    fcdet_Hz: -30                      # filter cavity detuning [Hz]
+    fc_Tin: 0.000909                    # filter cavity input mirror transmission
+    nlg: 24.3                      # generated squeezing level [dB]
+    include_mm: true                   # include mode-mismatch terms
+    quiet: true                        # suppress parameter printout
+    use_default_gwinc_budgets: false   # use built-in gwinc budgets instead of H1 YAML
+    
+FIS_PSAMS_ZM5_5p3:  #alog 88208
+  182.1 : 1447829109.0 
+  169.8 : 1447906635.0 
+  159.8 : 1447906876.0 
+  149.8 : 1447907115.0 
+  139.8 : 1447907356.0 
+  129.8 : 1447907596.0 
+  119.8 : 1447907836.0 
+  109.8 : 1447908076.0 
+  99.8 : 1447908316.0 
+  89.8 : 1447908556.0 
+  79.8 : 1447908796.0 
+  79.8 : 1447909036.0 
+  59.8 : 1447909276.0 
+  39.8 : 1447909516.0 
+  19.8 : 1447909757.0 
+  0.0 : 1447909997.0 
+  -30.0 : 1447910237.0 
+  -60.0 : 1447910477.0 
+  -90.0 : 1447910717.0 
+  -120.0 : 1447910957.0 
+  -150.0 : 1447911197.0 
+  nosqz : 1447442524
+  span: 180
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  params: 'QuantumParameters_July2025'
+  budget_kwargs:
+    bname: 'Displacement'
+    Parm: 347000                         # arm cavity power [W]
+    readout_eff: 0.92                   # total readout efficiency (OMC + homodyne)
+    sec_detuning_deg: 0                 # signal recycling cavity detuning [deg]
+    homodyne_angle_deg: 10              # homodyne readout angle [deg]
+    sqz_config: 'Freq Independent'        # squeezer type: 'None', 'Freq Dependent', etc.
+    fcdet_Hz: -30                      # filter cavity detuning [Hz]
+    fc_Tin: 0.000909                    # filter cavity input mirror transmission
+    nlg: 22                      # generated squeezing level [dB]
+    include_mm: true                   # include mode-mismatch terms
+    quiet: true                        # suppress parameter printout
+    use_default_gwinc_budgets: false   # use built-in gwinc budgets instead of H1 YAML
+
+  
+FIS_PSAMS_ZM4_4:  #alog 88205
+  169.8 : 1447906635.0 
+  159.8 : 1447906876.0 
+  149.8 : 1447907115.0 
+  139.8 : 1447907356.0 
+  129.8 : 1447907596.0 
+  119.8 : 1447907836.0 
+  109.8 : 1447908076.0 
+  99.8 : 1447908316.0 
+  89.8 : 1447908556.0 
+  79.8 : 1447908796.0 
+  79.8 : 1447909036.0 
+  59.8 : 1447909276.0 
+  39.8 : 1447909516.0 
+  19.8 : 1447909757.0 
+  0.0 : 1447909997.0 
+  -30.0 : 1447910237.0 
+  -60.0 : 1447910477.0 
+  -90.0 : 1447910717.0 
+  -120.0 : 1447910957.0 
+  -150.0 : 1447911197.0 
+  nosqz: 1447822825
+  span: 180
+  darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+  budget_kwargs:
+    bname: 'Displacement'
+    Parm: 347000                         # arm cavity power [W]
+    readout_eff: 0.92                   # total readout efficiency (OMC + homodyne)
+    sec_detuning_deg: 0                 # signal recycling cavity detuning [deg]
+    homodyne_angle_deg: 10              # homodyne readout angle [deg]
+    sqz_config: 'Freq Independent'        # squeezer type: 'None', 'Freq Dependent', etc.
+    fcdet_Hz: -30                      # filter cavity detuning [Hz]
+    fc_Tin: 0.000909                    # filter cavity input mirror transmission
+    nlg: 24.3                      # generated squeezing level [dB]
+    include_mm: true                   # include mode-mismatch terms
+    quiet: true                        # suppress parameter printout
+    use_default_gwinc_budgets: false   # use built-in gwinc budgets instead of H1 YAML
+
+
+OM2_hot_Sept2025_SRCL_changed:  #alog 86739
+  nosqz:  1441049156 #, NLG for this meas is 24.0  in 86729
+  FIS:   1441057458 #
+  FIMS-: 1441057698 #
+  FIMS+: 1441057923 #
+  meanSqz: 1441058178
+  metadata:
+    span: 180
+    darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+    params: 'QuantumParameters_hot_OM2_SRCL_offset'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+OM2_hot_Sept2025_no_SRCL_change:  #alog 86736
+  nosqz:  1441051578 #, NLG for this meas is 24.0  in 86729
+  FIS:  1441052135  #
+  FIMS-: 1441052530 #
+  FIAS: 1441052958
+  FIMS+: 1441053378 #
+  meanSqz: 1441053648
+  metadata:
+    span: 180
+    darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+    params: 'QuantumParameters_hot_OM2'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+OM2_cold_Sept2025:  #alog 86777  NLG measured 22.9
+  nosqz:  1441382988
+  FIS:   1441383738
+  FIMS-: 1441384008
+  FIMS+: 1441384338
+  meanSqz: 1441384968
+  metadata:
+    span: 180
+    darm_chan: 'H1:GDS-CALIB_STRAIN_CLEAN'
+    params: 'QuantumParameters_Sept2025'  #find this param file here: aligoNB/aligNB/H1/ifos
+
+
+
+
